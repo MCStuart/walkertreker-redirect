@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      let path = '';
+      let key = '';
+      let value = '';
+      function getMobileOperatingSystem() {
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        // Windows Phone must come first because its UA also contains "Android"
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+        return "unknown";
+      }
+      // THIS IS FOR IF WE SERVE MORE OPERATING SYSTEMS
+      
+      // function DetectAndServe(){
+      //   let os = getMobileOperatingSystem();
+      //   if (os == "Android") {
+      //       window.location.href = "http://www.Androidexample.com"; 
+      //   } else if (os == "iOS") {
+      //       window.location.href = "http://www.IOSexample.com";
+      //   } else if (os == "Windows Phone") {
+      //       window.location.href = "http://www.WindowsPhoneexample.com";
+      //   } else {
+      //       window.location.href = "http://www.NowherLandexample.com";
+      //   }
+      // }
+      console.log(getMobileOperatingSystem())
+      function getSearchParameters() {
+        const allParamsArr = window.location.search.substr(1).split('&')
+        console.log(allParamsArr)
+        if (allParamsArr[0] != null && allParamsArr[0] != "") {
+          const pathName = allParamsArr[0].split("=");
+          path = pathName[1]
+          console.log(path)
+        }
+        if (allParamsArr[1] != null && allParamsArr[1] != "") {
+          const paramArr = allParamsArr[1].split("=");
+          key = paramArr[0]
+          value = paramArr[1]
+          console.log(key, value)
+        }
+        if (allParamsArr[2] != null && allParamsArr[2] != "") {
+          const paramArr = allParamsArr[2].split("=");
+          uri = paramArr[1]
+          console.log(uri)
+        }
+      }
+      window.onload = async function() {
+        const OS = getMobileOperatingSystem()
+        await getSearchParameters()
+        window.location = `exp://10.1.10.118:19000/--/${path}?${key}=${value}`;
+        if (OS === 'Android') {
+          setTimeout(function() {
+            window.location = `http://play.google.com/store/apps/details?id=walkertreker`;
+          },1000)
+        }
+      }
+    </script>
+  </head>
+​
+  <body>
+    <div>This is the body of the walkertreker redirect</div>
+  </body>
+</html>
